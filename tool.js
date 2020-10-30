@@ -4,9 +4,9 @@ const fs = require('graceful-fs');
 
 let npmDepts = [];
 
-const filePath = './src/source/map3d-earth-scanner/0.0.12.js';
-const specailName = '/com/map3d-earth-scanner/0.0.12';
-const comName = 'map3d-earth-scanner';
+const filePath = './src/source/map3d-earth-scenecontrol/0.0.14.js';
+const specailName = '/com/map3d-earth-scenecontrol/0.0.14';
+const comName = 'map3d-earth-scenecontrol';
 
 const splitStr = 'datav:' + specailName;
 

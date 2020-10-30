@@ -9,6 +9,8 @@ const Area = require('./map3d-earth-area');
 const ThunderLine = require('./map3d-earth-thunder');
 // 扫描线层
 const Scanner = require('./map3d-earth-scanner');
+// 场景管理器
+const SceneControl = require('./map3d-earth-scenecontrol');
 
 const container = document.querySelector('#root');
 const map = new Map3dEarth(container, {
@@ -90,7 +92,10 @@ const thunderLine = new ThunderLine({}, {
   }],
 });
 map.add(thunderLine, 'map3d-earth-thunder');
-thunderLine.render({type: "FeatureCollection", features: Array(0)});
+thunderLine.render({
+  type: "FeatureCollection",
+  features: Array(0)
+});
 
 const scanner = new Scanner({}, {
   isloop: true,
@@ -105,4 +110,13 @@ const scanner = new Scanner({}, {
 });
 map.add(scanner, 'map3d-earth-thunder');
 
+const sceneControl = new SceneControl({}, {
+  isWork: false,
+  tweenMode: "once",
+  duration: 3000,
+  delay: 3000,
+  callbackId: ""
+});
+map.add(sceneControl, 'map3d-earth-scenecontrol');
+sceneControl.setData([{"id":"1","name":"beijing","position":{"fov":50,"lat":39,"lng":115,"distance":400},"duration":3000,"delay":3000},{"id":"2","name":"shanghai","position":{"fov":30,"lat":30,"lng":120,"distance":300},"duration":3000,"delay":3000},{"id":"3","name":"guangzhou","position":{"fov":50,"lat":23,"lng":113,"distance":400},"duration":3000,"delay":3000}])
 // console.log(Map3dEarth);
