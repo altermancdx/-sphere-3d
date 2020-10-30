@@ -1,0 +1,2 @@
+const Cube = require('@/Cube')(module, module.exports, require);
+Cube("datav:/com/@double11-2017/map3d-earth/0.1.14/utils",["datav:/npm/tween.js/16.6.0","datav:/npm/chroma-js/1.3.4","datav:/npm/safely-merge/1.0.1"],function(a,b,c){var d=require("tween.js"),e=require("chroma-js"),f=require("map3d-earth/utils/common.js"),g=require("map3d-earth/utils/projection.js"),h=require("safely-merge");return a.exports=Object.assign({TWEEN:d,Chroma:e,mergeOptions:h},g,f),a.exports});;
