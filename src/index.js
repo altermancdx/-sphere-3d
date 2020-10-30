@@ -3,6 +3,12 @@ const Map3dEarth = require('./map3d-earth');
 const Ambientlighter = require('./map3d-earth-ambientlighter');
 // 球体层
 const Globe = require('./map3d-earth-globe');
+// 区域热力层
+const Area = require('./map3d-earth-area');
+// 轨迹层
+const ThunderLine = require('./map3d-earth-thunder');
+// 扫描线层
+const Scanner = require('./map3d-earth-scanner');
 
 const container = document.querySelector('#root');
 const map = new Map3dEarth(container, {
@@ -30,7 +36,10 @@ const map = new Map3dEarth(container, {
   transDuration: 5
 });
 
-const ambientlighter = new Ambientlighter({}, {intensity: 0.3, color: "#FFFFFF"});
+const ambientlighter = new Ambientlighter({}, {
+  intensity: 0.3,
+  color: "#FFFFFF",
+});
 map.add(ambientlighter, 'map3d-earth-ambientlighter-fda');
 
 const globe = new Globe({}, {
@@ -45,5 +54,55 @@ const globe = new Globe({}, {
 });
 map.add(globe, 'map3d-earth-globe-fdafa');
 
+const area = new Area({}, {
+  chinaGeoJsonApi: "//sh-conf.oss-cn-shanghai.aliyuncs.com/datav-coms-data/china.json",
+  height: 2,
+  isStokeOnly: false,
+  minFillColor: "#33C9FB",
+  maxFillColor: "#1F68A7",
+  defaultFillColor: "#676767",
+  fillOpacity: 1,
+  strokeColor: "#E7EE98",
+  strokeOpacity: 0.8,
+  strokeWidth: 0.05
+});
+map.add(area, 'map3d-earth-area-fdafa');
+area.setGeojson({
+  type: "FeatureCollection",
+  features: []
+});
+area.setData(require('./data/map3d-earth-area/index.json'));
+
+const thunderLine = new ThunderLine({}, {
+  height: 3,
+  lineLength: 0.8,
+  intervalFreq: 0.3,
+  speed: 0.015,
+  trailColor: "#FFFD49",
+  opacityFactor: 0.2,
+  level: 3,
+  trailRadiusSeries: [{
+    levelSize: 0.08,
+  }, {
+    levelSize: 0.12,
+  }, {
+    levelSize: 0.18,
+  }],
+});
+map.add(thunderLine, 'map3d-earth-thunder');
+thunderLine.render({type: "FeatureCollection", features: Array(0)});
+
+const scanner = new Scanner({}, {
+  isloop: true,
+  color: "#DBCBFF",
+  textureUrl: "https://img.alicdn.com/tfs/TB1WfbDb8fH8KJjy1XbXXbLdXXa-4096-2048.png",
+  opacity: 1,
+  speed: 0.003,
+  scale: 1.01,
+  rotationX: 0,
+  rotationY: 0,
+  rotationZ: 0.4014
+});
+map.add(scanner, 'map3d-earth-thunder');
 
 // console.log(Map3dEarth);

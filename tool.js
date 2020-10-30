@@ -1,17 +1,26 @@
 const path = require('path');
 const chalk = require('chalk');
 const fs = require('graceful-fs');
+
+let npmDepts = [];
+
+const filePath = './src/source/map3d-earth-scanner/0.0.12.js';
+const specailName = '/com/map3d-earth-scanner/0.0.12';
+const comName = 'map3d-earth-scanner';
+
+const splitStr = 'datav:' + specailName;
+
+const splitReg = new RegExp(`Cube\\("${splitStr}`, 'g');
+
 const str = fs.readFileSync(
-  path.join(__dirname, './src/source/map3d-earth/0.1.14.js'),
+  path.join(__dirname, filePath),
   'utf8',
 );
 
 const prefix = `const Cube = require('@/Cube')(module, module.exports, require);`;
-
-let npmDepts = [];
-const libs = str.split(/Cube\(\"datav\:\/com\/@double11-2017\/map3d-earth\/0.1.14/g)
+const libs = str.split(splitReg)
   .filter((_, i) => i > 0)
-  .map((str) => `Cube("datav:/com/@double11-2017/map3d-earth/0.1.14${str}`)
+  .map((str) => `Cube("${splitStr}${str}`)
   .map((str) => {
     const id = getId(str);
     const { dirname, filename, path } = getPath(id);
@@ -34,11 +43,11 @@ function getId(str) {
 }
 
 function getPath(id) {
-  const output = id.replace('datav:/com/@double11-2017/map3d-earth/0.1.14', 'map3d-earth');
+  const output = id.replace(splitStr, comName);
   let dirname = path.dirname(output);
   let filename = path.basename(output);
   let extname = path.extname(output);
-  if (!extname || extname === '.14') {
+  if (!extname || typeof +extname === 'number') {
     dirname = output;
     filename = 'index.js';
   }
@@ -47,7 +56,7 @@ function getPath(id) {
 }
 
 function handleDeps(str) {
-  const deptReg = /[= ][a-zA-Z]\("datav:[^"]+?"\)/g;
+  const deptReg = /[:= ][a-zA-Z]\("datav:[^"]+?"\)/g;
   const matchedDept = str.match(deptReg);
   if (!matchedDept) {
     return str;
@@ -68,10 +77,10 @@ function handleDeps(str) {
       // console.log(newDep);
       // dep.replace()
     } else if (name.startsWith('/com/')) {
-      if (!name.startsWith('/com/@double11-2017/map3d-earth/0.1.14')) {
+      if (!name.startsWith(specailName)) {
         console.log(chalk.red(dep));
       }
-      const newDep = dep.replace('datav:/com/@double11-2017/map3d-earth/0.1.14', 'map3d-earth')
+      const newDep = dep.replace(splitStr, '@/' + comName)
         .replace('c', 'require');
       str = str.replace(dep, newDep);
       // console.log({dep, name, newDep});
@@ -110,7 +119,7 @@ function installNpmDept() {
   }).join(' ')}`);
   // console.log(res);
 }
-// installNpmDept();
+installNpmDept();
 
 // fs.mkdirSync(path.resolve('map3d-earth/lib'), { recursive: true });
 // console.log(getId(libs[0]));
