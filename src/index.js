@@ -111,8 +111,8 @@ const scanner = new Scanner({}, {
 map.add(scanner, 'map3d-earth-thunder');
 
 const sceneControl = new SceneControl({}, {
-  isWork: false,
-  tweenMode: "once",
+  isWork: true,
+  tweenMode: "repeat",
   duration: 3000,
   delay: 3000,
   callbackId: ""
