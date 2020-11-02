@@ -4,9 +4,9 @@ const fs = require('graceful-fs');
 
 let npmDepts = [];
 
-const filePath = './src/source/map3d-earth-scenecontrol/0.0.14.js';
-const specailName = '/com/map3d-earth-scenecontrol/0.0.14';
-const comName = 'map3d-earth-scenecontrol';
+const filePath = './source/map3d-earth-bar-3d/0.1.9.css';
+const specailName = '/com/map3d-earth-bar-3d/0.1.9';
+const comName = 'map3d-earth-bar-3d';
 
 const splitStr = 'datav:' + specailName;
 
@@ -70,7 +70,7 @@ function handleDeps(str) {
       const [oldDep, npmName, npmVersion] = dep.match(npmDepReg);
       npmDepts.push({ name: npmName, version: npmVersion });
       const newDep = dep.replace(oldDep, npmName)
-        .replace('c', 'require');
+        .replace(/[a-z]/, 'require');
       // console.log({ name, dep, oldDep, newDep });
 
       str = str.replace(dep, newDep);
@@ -81,7 +81,7 @@ function handleDeps(str) {
         console.log(chalk.red(dep));
       }
       const newDep = dep.replace(splitStr, '@/' + comName)
-        .replace('c', 'require');
+        .replace(/[a-z]/, 'require');
       str = str.replace(dep, newDep);
       // console.log({dep, name, newDep});
     }

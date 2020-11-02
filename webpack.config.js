@@ -9,6 +9,9 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: 'main.js',
   },
+  module: {
+    unknownContextCritical: false,
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src/'),
